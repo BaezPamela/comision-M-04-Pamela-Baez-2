@@ -1,6 +1,6 @@
 import {Card} from 'react-bootstrap';
 
-import Home from './../components/Home.jsx';
+import Home from '../components/Home.jsx';
 
 const DefaultLayout = ({children}) => {
   

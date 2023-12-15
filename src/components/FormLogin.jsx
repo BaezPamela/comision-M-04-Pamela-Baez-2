@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate }from 'react-router-dom';
+import axios from 'axios';
 
 const FormLogin =() => {
   const [userName,setuserName] = useState('');
@@ -10,9 +11,36 @@ const FormLogin =() => {
   const [Password, setPassword ] = useState('');
   const [deshabilitarBoton, setDesHabilitarBoton] = useState(false);
   const [errores, setErrores] = useState({});
+  const [autenticarError,setautenticarError] = useState('');
+  
   const navigate = useNavigate();
   
-  //ver si agrgo aca para modificar avatar
+  const autenticar = async () => {
+    try{
+      const response = await axios.post('http://localhost:3000/autenticar', {
+        userName: userName,
+        email: Email,
+        password: Password,
+      });
+
+      if (response.status === 200) {
+       
+        console.log('Login exitoso');
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setautenticarError(error.response.data.message || 'Error inesperado');
+      } else {
+        setautenticarError('Error inesperado');
+      }
+    } finally {
+      setDesHabilitarBoton(false);
+    }
+  }; 
+    
+  
+  
+  //ver si agrego aca para modificar avatar
   
   const modificaruserName = (e) => {
     setuserName (e.target.value);
@@ -28,7 +56,7 @@ const FormLogin =() => {
   
 }
   
-  const realizarLogin= async () => {
+  const verificarDatos= async () => {
     let misErrores = {}
     if (userName.length ===0) { 
       misErrores.userName ='Debe introducir al menos un nombre';
@@ -46,16 +74,13 @@ const FormLogin =() => {
     
     if(Object.entries(errores).length === 0){
       setDesHabilitarBoton(true);
+      await mandarDatos();
     
-      console.log(Email);
-      console.log(Password);
-      console.log(userName);
-
-      await enviarDatos();
+      
     }
    
   }
-const enviarDatos = async () => {
+const mandarDatos = async () => {
   const url = 'http://localhost:3000/usuario';
 
   const datos = {
@@ -63,14 +88,17 @@ const enviarDatos = async () => {
     Email: Email,
     Password: Password,
   }
+  try{
   const respuesta =await axios.post(url, datos);
 
   if(respuesta.status === 200) {
        return navigate('/');
     }else{
-    setErrores({
-      error:'Ocurrio un error inesperado'})
+      setErrores({error:'Ocurrio un error inesperado'})
   }
+}catch(error){
+  setErrores({error:'Ocurrio un error inesperado'});
+}
   setDesHabilitarBoton(false);
 }
   return (
@@ -109,8 +137,8 @@ const enviarDatos = async () => {
         )
       } 
       
-      <Button variant="primary" type="submit"onClick={realizarLogin} disabled = {deshabilitarBoton}>
-        Enviar
+      <Button variant="primary" type="button"onClick={verificar} disabled = {deshabilitarBoton}>
+        Ingresar
       </Button>
     </Form>
   );
