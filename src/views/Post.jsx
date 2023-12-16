@@ -7,7 +7,7 @@ const Post = () => {
   
   const [lista, setLista] = useState([]);
    
-  const {userName} = useAuthContext();
+  const {usuario} = useAuthContext();
 
   const cargarLista = async () => {
     const url = 'http://localhost:3000/posts';
@@ -30,7 +30,7 @@ const Post = () => {
     
          <Card.Body>
          
-         <Posteos lista={lista} />
+         <Posteos lista={lista} usuario ={usuario}/>
         
          </Card.Body>
       

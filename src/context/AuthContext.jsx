@@ -25,7 +25,7 @@ const AuthProvider =(props )=>{
     const logout = () =>{
         limpiarLocalStorage();
         
-        setUserName(null);
+        setUsuario(null);
         setToken(null);
     }
    

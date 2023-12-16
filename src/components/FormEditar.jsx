@@ -8,8 +8,9 @@ import Alert from 'react-bootstrap/Alert';
 
 import { traerDatosDePosteoPorId } from '../utils/llamados';
 
+
 const FormEditar = (props) => {
-    const { id,userName,token } = props;
+    const { id, token} = props;
     const url = 'http://localhost:3000/post'
   
   const [title, setTitle] = useState('');
@@ -77,7 +78,7 @@ const navigate = useNavigate();
   }
   
   const traerDatos = async () =>{
-    if(userName) {
+    if(usuario) {
 
     const respuesta = await traerDatosDePosteoPorId(id);
 

@@ -4,11 +4,11 @@ import CardPost from '../components/CardPost.jsx';
 
    const NewPost = () => {
     return(
-        <Card>
+    
           <Card.Body>
             <CardPost/>
           </Card.Body>
-        </Card>
+        
     )
     };
 
